@@ -10,7 +10,6 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
-	"github.com/xluohome/phonedata"
 )
 
 //go:embed phone.dat
@@ -22,6 +21,7 @@ func main() {
 
 	d, _ := os.Executable()
 	os.Setenv("PHONE_DATA_DIR", filepath.Dir(d))
+	Init()
 
 	http.HandleFunc("/phonedata", func(w http.ResponseWriter, r *http.Request) {
 
@@ -33,7 +33,7 @@ func main() {
 		defer r.Body.Close()
 
 		g := gjson.ParseBytes(b)
-		p, err := phonedata.Find(g.Get("phone").String())
+		p, err := Find(g.Get("phone").String())
 		if err != nil {
 			log.Errorln(err)
 			return
