@@ -232,5 +232,5 @@ func main() {
 		w.Write(a)
 	})
 
-	http.ListenAndServe("0.0.0.0:8082", nil)
+	log.Errorln(http.ListenAndServe("0.0.0.0:8082", nil))
 }
