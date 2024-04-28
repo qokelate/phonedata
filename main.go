@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
@@ -17,6 +19,9 @@ var phonedb []byte
 func main() {
 
 	ioutil.WriteFile("phone.dat", phonedb, 0644)
+
+	d, _ := os.Executable()
+	os.Setenv("PHONE_DATA_DIR", filepath.Dir(d))
 
 	http.HandleFunc("/phonedata", func(w http.ResponseWriter, r *http.Request) {
 
